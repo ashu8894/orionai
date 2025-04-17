@@ -1,0 +1,14 @@
+{
+  "name": "openai-streaming",
+  "version": "1.0.0",
+  "description": "Call OpenAI GPT-4o with streaming enabled",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "openai": "^4.30.0"
+  }
+}
