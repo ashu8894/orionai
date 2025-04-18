@@ -11,16 +11,26 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Middleware to parse JSON
+app.use(cors()); // CORS for normal routes
 app.use(bodyParser.json());
 
-// SSE headers
+// SSE headers with CORS
 function setSSEHeaders(res) {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // ✅ Required for SSE CORS
+  res.setHeader('Access-Control-Allow-Headers', '*');
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
 }
+
+// Optional: Preflight handler for /chat
+app.options('/chat', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.sendStatus(204);
+});
 
 // POST with streaming
 app.post('/chat', async (req, res) => {
